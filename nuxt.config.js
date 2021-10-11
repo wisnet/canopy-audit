@@ -8,23 +8,22 @@ export default {
   publicRuntimeConfig: {
     baseUrl: process.env.BASE_URL || 'http://localhost:3000',
     authUrl: process.env.AUTH_URL || 'http://localhost:3000',
-    apiUrl: process.env.API_URL || 'http://localhost:3000'
+    apiUrl: process.env.API_URL || 'http://localhost:3000',
+    googlePageSpeedInsightsApiKey: process.env.GOOGLE_PAGESPEED_INSIGHTS_API_KEY
   },
-  privateRuntimeConfig: {
-    apiSecret: process.env.API_SECRET
-  },
+  privateRuntimeConfig: {},
   target: process.env.NODE_ENV === 'production' ? 'static' : 'server',
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - nuxt-laravel-auth',
     title: 'nuxt-laravel-auth',
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' }
+      {charset: 'utf-8'},
+      {name: 'viewport', content: 'width=device-width, initial-scale=1'},
+      {hid: 'description', name: 'description', content: ''}
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
     ]
   },
 
@@ -80,20 +79,20 @@ export default {
       Accept: 'application/json'
     }
   },
-  auth: {
-    strategies: {
-      laravelSanctum: {
-        provider: 'laravel/sanctum',
-        url: process.env.AUTH_URL
-        // The user endpoint is called automatically after a successful login.
-        // We can change it if necessary, otherwise leave commented.
-        // endpoints: {
-        //   user: { url: '/api/me', method: 'get', propertyName: false }
-        // }
-      }
-    },
-    tokenType: ''
-  },
+  // auth: {
+  //   strategies: {
+  //     laravelSanctum: {
+  //       provider: 'laravel/sanctum',
+  //       url: process.env.AUTH_URL
+  //       // The user endpoint is called automatically after a successful login.
+  //       // We can change it if necessary, otherwise leave commented.
+  //       // endpoints: {
+  //       //   user: { url: '/api/me', method: 'get', propertyName: false }
+  //       // }
+  //     }
+  //   },
+  //   tokenType: ''
+  // },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
