@@ -1,6 +1,5 @@
 <template>
   <section class="mxtoolbox-a-lookup">
-    <h1>MxToolbox A Lookup</h1>
     <v-simple-table>
       <template v-slot:default>
         <thead>
@@ -30,7 +29,7 @@
           <td>Domain Name</td>
           <td>{{ domainName }}</td>
         </tr>
-        <tr v-if="type == 'a'">
+        <tr v-if="type === 'A'">
           <td>IP Address</td>
           <td>{{ ipAddress }}</td>
         </tr>
@@ -88,7 +87,7 @@ export default {
   },
   methods: {
     normalizeData() {
-      const info = this.data.Information[0];
+      const info = this.data;
       this.ipAddress = info['IP Address'];
       this.isIpV6 = info['IsIPV6'] ? 'Yes' : 'No';
       this.domainName = info['Domain Name'];
@@ -97,16 +96,6 @@ export default {
       this.canonicalName = info['Canonical Name'];
       this.serviceProvider = this.data.DnsServiceProvider;
       this.reportingNameserver = this.data.ReportingNameServer;
-
-      try {
-        const asn = JSON.parse(info.Asn);
-
-        this.asn = {
-          name: asn[0].asname,
-          asn: asn[0].asn
-        };
-      } catch (e) {
-      }
     }
   }
 };

@@ -1,37 +1,56 @@
 <template>
   <section>
     <form @submit.prevent="doAudit">
-
       <v-row>
-
         <v-text-field
           v-model="domain"
-          @change="doAudit"
           outlined
+          @change="doAudit"
         />
 
         <v-btn
           x-large
           dark
           type="submit"
-        >Run
+          :disabled="working"
+        >
+          Run
         </v-btn>
       </v-row>
     </form>
 
-    <template v-if="working">
-      <v-skeleton-loader type="card@3"></v-skeleton-loader>
-    </template>
-    <template v-else>
-      <loading-experience v-if="googlePageSpeed.loadingExperience" :data="googlePageSpeed.loadingExperience" />
-      <lighthouse-results v-if="googlePageSpeed.lighthouseResult" :data="googlePageSpeed.lighthouseResult" />
-      <div
-        v-if="mxToolbox"
+    <template>
+      <v-tabs
+        v-model="tab"
+        align-with-title
       >
-        <template v-for="(item) in mxToolbox">
-          <component :is="mxComponentName(item)" :data="item"></component>
-        </template>
-      </div>
+        <v-tabs-slider color="yellow" />
+
+        <v-tab
+          v-for="(label, key) in tabs"
+          :key="key"
+        >
+          {{ label }}
+        </v-tab>
+      </v-tabs>
+
+      <v-tabs-items v-model="tab">
+        <v-tab-item key="lighthouse">
+          <loading-experience v-if="googlePageSpeed.loadingExperience" :data="googlePageSpeed.loadingExperience" />
+        </v-tab-item>
+        <v-tab-item key="loading">
+          <lighthouse-results v-if="googlePageSpeed.lighthouseResult" :data="googlePageSpeed.lighthouseResult" />
+        </v-tab-item>
+        <v-tab-item key="mxtoolbox">
+          <div
+            v-if="mxToolbox"
+          >
+            <template v-for="(item) in mxToolbox">
+              <component :is="mxComponentName(item)" :data="item" />
+            </template>
+          </div>
+        </v-tab-item>
+      </v-tabs-items>
     </template>
   </section>
 </template>
@@ -55,7 +74,13 @@ export default {
       domain: 'https://www.wisnet.com/',
       googlePageSpeed: {},
       mxToolbox: [],
-      working: false
+      working: false,
+      tab: '',
+      tabs: {
+        lighthouse: 'Lighthouse',
+        loading: 'Loading Experience',
+        mxtoolbox: 'MX Toolbox'
+      }
     };
   },
   created() {
@@ -65,14 +90,16 @@ export default {
     mxComponentName(item) {
       return 'MxToolbox' + item.Command.toUpperCase() + 'Lookup';
     },
-    async doAudit() {
+    doAudit() {
       this.working = true;
       this.googlePageSpeed = [];
       this.mxToolbox = [];
-      await this.googlePageSpeedAudit(this.domain);
-      await this.mxToolboxAudit(this.domain, 'dns');
+      const audits = [
+        this.googlePageSpeedAudit(this.domain),
+        this.mxToolboxAudit(this.domain, 'dns')
+      ];
 
-      this.working = false;
+      Promise.all(audits).then(_ => this.working = false);
     },
     async googlePageSpeedAudit(domain) {
       const url = this.setUpPageSpeedQuery(domain);
@@ -82,7 +109,7 @@ export default {
 
         this.googlePageSpeed = json;
       } catch (e) {
-        console.error({e});
+        console.error({ e });
       }
     },
     setUpPageSpeedQuery(domain) {
@@ -110,11 +137,11 @@ export default {
         // 'blacklist', - PAID PLAN
       ];
       const relatedLookups = data.RelatedLookups.filter(e => allowedMxLookups.includes(e.Name));
-      console.log({relatedLookups});
-      const relatedPromises = relatedLookups.map(async (e) => await this.mxToolboxRequest(e.URL));
+      console.log({ relatedLookups });
+      const relatedPromises = relatedLookups.map(async e => await this.mxToolboxRequest(e.URL));
       const related = await Promise.all(relatedPromises);
 
-      console.log({related});
+      console.log({ related });
 
       related.forEach(r => (this.mxToolbox.push(r)));
 
@@ -130,7 +157,6 @@ export default {
       };
       const response = await fetch(url, init);
       return await response.json();
-
     }
   }
 };
