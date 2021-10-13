@@ -6,10 +6,10 @@
       </div>
       <v-card>
         <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
+          Canopy Audit
         </v-card-title>
         <v-card-text>
-          Enter your domain name in the box below to get started:
+          (We should probably think of a better name and put it on a `.io` domain
         </v-card-text>
       </v-card>
     </v-col>
