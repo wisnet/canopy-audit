@@ -1,16 +1,60 @@
 <template>
-  <div class="VueToNuxtLogo">
-    <div class="Triangle Triangle--two" />
-    <div class="Triangle Triangle--one" />
-    <div class="Triangle Triangle--three" />
-    <div class="Triangle Triangle--four" />
+  <div class="CanopyToNuxtLogo">
+    <div class="tree">
+      <div class="tree__top"></div>
+      <div class="tree__middle"></div>
+      <div class="tree__bottom"></div>
+    </div>
   </div>
 </template>
 
-<style>
+<script>
+export default {
+  name: 'Logo',
+  data() {
+    return {
+      colors: {
+        temp1: '#3f933f',
+        temp2: '#2e762e',
+        temp3: '#215e21'
+      },
+      iteration: 1
+    };
+  },
+  created() {
+    if (process.client) {
+      this.animateLogoColors();
+    }
+  },
+  methods: {
+    animateLogoColors() {
+      setTimeout(this.changeColors, 10000);
+    },
+    changeColors() {
+      this.iteration++;
+      const el = window.document.querySelector('.tree');
+      if (this.iteration % 2) {
+        el.style.setProperty('--tree-light1', this.colors.temp2);
+        el.style.setProperty('--tree-light2', this.colors.temp3);
+        el.style.setProperty('--tree-light3', this.colors.temp1);
+      } else if (this.iteration % 2) {
+        el.style.setProperty('--tree-light1', this.colors.temp3);
+        el.style.setProperty('--tree-light2', this.colors.temp1);
+        el.style.setProperty('--tree-light3', this.colors.temp2);
+      } else {
+        el.style.setProperty('--tree-light1', this.colors.temp1);
+        el.style.setProperty('--tree-light2', this.colors.temp2);
+        el.style.setProperty('--tree-light3', this.colors.temp3);
+      }
+      this.animateLogoColors();
+    }
+  }
+};
+</script>
+
+<style scoped lang="scss">
 .VueToNuxtLogo {
   display: inline-block;
-  animation: turn 2s linear forwards 1s;
   transform: rotateX(180deg);
   position: relative;
   overflow: hidden;
@@ -18,62 +62,39 @@
   width: 245px;
 }
 
-.Triangle {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 0;
-}
+.tree {
+  --tree-light1: #3f933f;
+  --tree-light2: #2e762e;
+  --tree-light3: #215e21;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 40px;
 
-.Triangle--one {
-  border-left: 105px solid transparent;
-  border-right: 105px solid transparent;
-  border-bottom: 180px solid #41b883;
-}
-
-.Triangle--two {
-  top: 30px;
-  left: 35px;
-  animation: goright 0.5s linear forwards 3.5s;
-  border-left: 87.5px solid transparent;
-  border-right: 87.5px solid transparent;
-  border-bottom: 150px solid #3b8070;
-}
-
-.Triangle--three {
-  top: 60px;
-  left: 35px;
-  animation: goright 0.5s linear forwards 3.5s;
-  border-left: 70px solid transparent;
-  border-right: 70px solid transparent;
-  border-bottom: 120px solid #35495e;
-}
-
-.Triangle--four {
-  top: 120px;
-  left: 70px;
-  animation: godown 0.5s linear forwards 3s;
-  border-left: 35px solid transparent;
-  border-right: 35px solid transparent;
-  border-bottom: 60px solid #fff;
-}
-
-@keyframes turn {
-  100% {
-    transform: rotateX(0deg);
+  > div {
+    margin-bottom: -10px;
+    transition: 5s ease-in background-color;
   }
 }
 
-@keyframes godown {
-  100% {
-    top: 180px;
-  }
+.tree__top {
+  background: var(--tree-light1);
+  height: 30px;
+  width: 30px;
+  border-radius: 20px;
 }
 
-@keyframes goright {
-  100% {
-    left: 70px;
-  }
+.tree__middle {
+  background: var(--tree-light2);
+  height: 35px;
+  width: 80px;
+  border-radius: 40px;
+}
+
+.tree__bottom {
+  background: var(--tree-light3);
+  height: 40px;
+  width: 110px;
+  border-radius: 50px;
 }
 </style>
