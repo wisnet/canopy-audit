@@ -15,12 +15,16 @@ export default {
   target: process.env.NODE_ENV === 'production' ? 'static' : 'server',
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - nuxt-laravel-auth',
-    title: 'nuxt-laravel-auth',
+    titleTemplate: '%s - Canopy Audit',
+    title: 'Canopy Audit',
     meta: [
       {charset: 'utf-8'},
       {name: 'viewport', content: 'width=device-width, initial-scale=1'},
-      {hid: 'description', name: 'description', content: ''}
+      {
+        hid: 'description',
+        name: 'description',
+        content: 'Canopy Audit is a tools that will get you most of the important things you know all within a single tool.'
+      }
     ],
     link: [
       {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
@@ -47,6 +51,10 @@ export default {
     {
       src: '~/plugins/notifier.js',
       mode: 'client'
+    },
+    {
+      src: '~/plugins/vuex-persist',
+      ssr: false
     }
   ],
 

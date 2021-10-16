@@ -6,19 +6,19 @@
       <tr>
         <td>Cumulative Layout Shift</td>
         <td>
-          {{data.metrics.CUMULATIVE_LAYOUT_SHIFT_SCORE.percentile / 100}} ({{ data.metrics.CUMULATIVE_LAYOUT_SHIFT_SCORE.category }})
+          {{ metrics.CUMULATIVE_LAYOUT_SHIFT_SCORE.percentile / 100 }} ({{ metrics.CUMULATIVE_LAYOUT_SHIFT_SCORE.category }})
         </td>
       </tr>
       <tr>
         <td>First Contentful Paint</td>
         <td>
-          {{data.metrics.FIRST_CONTENTFUL_PAINT_MS.percentile / 1000}}s ({{ data.metrics.FIRST_CONTENTFUL_PAINT_MS.category }})
+          {{ metrics.FIRST_CONTENTFUL_PAINT_MS.percentile / 1000 }}s ({{ metrics.FIRST_CONTENTFUL_PAINT_MS.category }})
         </td>
       </tr>
       <tr>
         <td>Largest Contentful Paint</td>
         <td>
-          {{data.metrics.LARGEST_CONTENTFUL_PAINT_MS.percentile / 1000}}s ({{ data.metrics.LARGEST_CONTENTFUL_PAINT_MS.category }})
+          {{ metrics.LARGEST_CONTENTFUL_PAINT_MS.percentile / 1000 }}s ({{ metrics.LARGEST_CONTENTFUL_PAINT_MS.category }})
         </td>
       </tr>
       </tbody>
@@ -29,11 +29,32 @@
 <script>
 export default {
   name: 'LoadingExperience',
+  data() {
+    return {
+      metrics: {
+        CUMULATIVE_LAYOUT_SHIFT_SCORE: {
+          percentile: 0,
+          category: ''
+        },
+        FIRST_CONTENTFUL_PAINT_MS: {
+          percentile: 0,
+          category: ''
+        },
+        LARGEST_CONTENTFUL_PAINT_MS: {
+          percentile: 0,
+          category: ''
+        }
+      }
+    };
+  },
   props: {
     data: {
       type: Object,
       required: true
     }
+  },
+  created() {
+    this.metrics = {...this.metrics, ...this.data.metrics};
   }
 };
 </script>

@@ -19,100 +19,37 @@
       </v-row>
     </form>
 
-    <template v-if="didRun">
-      <v-tabs
-        v-model="tab"
-        align-with-title
-      >
-        <v-tabs-slider color="yellow" />
-
-        <v-tab
-          v-for="(label, key) in tabs"
-          :key="key"
-        >
-          {{ label }}
-        </v-tab>
-      </v-tabs>
-
-      <v-tabs-items v-model="tab">
-        <v-tab-item key="loading">
-          <v-card>
-            <v-card-text>
-              <template v-if="auditWorkingPageSpeed">
-                <v-skeleton-loader type="text@5"></v-skeleton-loader>
-              </template>
-              <loading-experience v-if="googlePageSpeed.loadingExperience" :data="googlePageSpeed.loadingExperience" />
-            </v-card-text>
-          </v-card>
-        </v-tab-item>
-        <v-tab-item key="lighthouse">
-          <v-card>
-            <v-card-text>
-              <template v-if="auditWorkingPageSpeed">
-                <v-skeleton-loader type="text@5"></v-skeleton-loader>
-              </template>
-              <lighthouse-results v-if="googlePageSpeed.lighthouseResult" :data="googlePageSpeed.lighthouseResult" />
-            </v-card-text>
-          </v-card>
-        </v-tab-item>
-        <v-tab-item key="mxtoolbox">
-          <v-card>
-            <v-card-text>
-              <template v-if="auditWokringMxToolbox">
-                <v-skeleton-loader type="text@5"></v-skeleton-loader>
-              </template>
-              <div
-                v-if="mxToolbox"
-              >
-                <template v-for="(item) in mxToolbox">
-                  <component :is="mxComponentName(item)" :data="item" />
-                </template>
-              </div>
-            </v-card-text>
-          </v-card>
-        </v-tab-item>
-      </v-tabs-items>
+    <template v-if="working">
+      <v-card>
+        <v-card-title>We are gathering some details</v-card-title>
+        <v-card-text>
+          <v-progress-linear
+            indeterminate
+            striped
+            color="orange darken-2"
+          ></v-progress-linear>
+        </v-card-text>
+        <v-card-text>Patience please</v-card-text>
+      </v-card>
     </template>
+
   </section>
 </template>
 
 <script>
-import MxToolboxALookup from './MxToolbox/MxToolboxALookup';
-import MxToolboxDNSLookup from './MxToolbox/MxToolboxDNSLookup';
-import LoadingExperience from './GooglePageSpeedInsights/LoadingExperience';
-import LighthouseResults from './GooglePageSpeedInsights/LighthouseResults';
 
 export default {
   name: 'AuditInput',
-  components: {
-    LighthouseResults,
-    LoadingExperience,
-    MxToolboxALookup,
-    MxToolboxDNSLookup
-  },
   data() {
     return {
       domain: 'https://www.wisnet.com/',
-      googlePageSpeed: {},
-      mxToolbox: [],
-      didRun: false,
       working: false,
-      tab: '',
-      tabs: {
-        loading: 'Loading Experience',
-        lighthouse: 'Lighthouse',
-        mxtoolbox: 'MX Toolbox'
-      },
       auditWorkingPageSpeed: false,
       auditWokringMxToolbox: false
     };
   },
   methods: {
-    mxComponentName(item) {
-      return 'MxToolbox' + item.Command.toUpperCase() + 'Lookup';
-    },
     doAudit() {
-      this.didRun = true;
       this.working = true;
       this.googlePageSpeed = [];
       this.mxToolbox = [];
@@ -122,7 +59,21 @@ export default {
         this.mxToolboxAudit(url, 'dns')
       ];
 
-      Promise.all(audits).then(_ => this.working = false);
+      Promise.all(audits).then(_ => {
+        this.$store.dispatch('audits/addAudit', {
+          domain: this.domain,
+          audits: {
+            pageSpeed: this.googlePageSpeed,
+            mxToolbox: this.mxToolbox
+          }
+        }).then((id) => {
+          this.$router.push({
+            path: '/audits/' + id
+          });
+        });
+
+        this.working = false;
+      });
     },
     makeUrl(domain) {
       let url;

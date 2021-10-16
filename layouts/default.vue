@@ -63,7 +63,6 @@
               mdi-account-circle
             </v-icon>
           </span>
-          </span>
         </template>
         <v-list>
           <v-list-item
@@ -122,14 +121,14 @@ export default {
       fixed: false,
       items: [
         {
-          icon: 'mdi-apps',
-          title: 'Welcome',
+          icon: 'mdi-run',
+          title: 'Run',
           to: '/'
         },
         {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
+          icon: 'mdi-history',
+          title: 'History',
+          to: '/audits'
         }
       ],
       accountItems: {
