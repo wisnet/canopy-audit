@@ -11,7 +11,7 @@
         </v-row>
       </v-expansion-panel-header>
       <v-expansion-panel-content>
-        {{ item.displayValue }}
+        {{ item.description }}
       </v-expansion-panel-content>
     </template>
   </section>
@@ -41,7 +41,6 @@ export default {
   },
   methods: {
     customAuditItemExists(auditKey) {
-      console.log({customAuditItems});
       return customAuditItems[auditKey] || false;
     }
   }
