@@ -1,9 +1,11 @@
 <template>
   <div class="CanopyToNuxtLogo">
     <div class="tree">
-      <div class="tree__top"></div>
+      <div class="tree__middle-left"></div>
+      <div class="tree__left"></div>
       <div class="tree__middle"></div>
-      <div class="tree__bottom"></div>
+      <div class="tree__right"></div>
+      <div class="tree__middle-right"></div>
     </div>
   </div>
 </template>
@@ -66,35 +68,62 @@ export default {
   --tree-light1: #3f933f;
   --tree-light2: #2e762e;
   --tree-light3: #215e21;
+  --base-height: 85px;
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin-bottom: 40px;
+  margin: 0 auto 40px;
+  position: relative;
+  width: calc(var(--base-height) * 2);
+  height: 100px;
 
   > div {
     margin-bottom: -10px;
     transition: 5s ease-in background-color;
+    position: absolute;
+    border-radius: 50%;
   }
 }
 
-.tree__top {
+.tree__left {
   background: var(--tree-light1);
-  height: 30px;
-  width: 30px;
-  border-radius: 20px;
+  height: calc(var(--base-height) + 10%);
+  width: calc(var(--base-height) + 10%);
+  transform: translate(calc(var(--base-height) / 1.8 * -1), 30px);
+  z-index: 1;
 }
 
 .tree__middle {
+  left: 50%;
   background: var(--tree-light2);
-  height: 35px;
-  width: 80px;
-  border-radius: 40px;
+  height: var(--base-height);
+  width: var(--base-height);
+  transform: translateX(-50%);
+  z-index: 4;
 }
 
-.tree__bottom {
+.tree__right {
   background: var(--tree-light3);
-  height: 40px;
-  width: 110px;
-  border-radius: 50px;
+  height: calc(var(--base-height) + 2%);
+  width: calc(var(--base-height) + 2%);
+  transform: translate(calc(var(--base-height) / 1.8), 30px);
+  z-index: 3;
+}
+
+.tree__middle-left {
+  transform: translate(calc(var(--base-height) / 1.8 * -1), 10px);
+  height: calc(var(--base-height) - 50px);
+  width: calc(var(--base-height) - 50px);
+  border-radius: 50%;
+  background: var(--tree-light3);
+  z-index: 3;
+}
+.tree__middle-right {
+  transform: translate(calc(var(--base-height) / 1.8), 10px);
+  height: calc(var(--base-height) - 50px);
+  width: calc(var(--base-height) - 50px);
+  border-radius: 50%;
+  background: var(--tree-light1);
+  z-index: 2;
 }
 </style>
