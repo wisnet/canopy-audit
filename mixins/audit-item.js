@@ -1,10 +1,13 @@
-import { mapState } from 'vuex';
-
 export default {
-  computed: {
-    ...mapState(['authApiError'])
-  },
-  created() {
-    this.$store.dispatch('loadCsrfCookie');
+  props: {
+    item: {
+      type: Object,
+      required: false
+    },
+    auditKey: {
+      type: String,
+      required: false,
+      default: ''
+    }
   }
 };

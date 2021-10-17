@@ -6,9 +6,7 @@
       </v-row>
     </v-expansion-panel-header>
     <v-expansion-panel-content>
-      <v-img>
-        <img :src="item.details.data"/>
-      </v-img>
+      <v-img :src="item.details.screenshot.data"/>
     </v-expansion-panel-content>
   </section>
 </template>
@@ -17,7 +15,7 @@
 import auditItem from '~/mixins/audit-item';
 
 export default {
-  name: 'AuditItemFinalScreenshot',
+  name: 'AuditItemFullPageScreenshot',
   mixins: [
     auditItem
   ]

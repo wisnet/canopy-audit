@@ -7,21 +7,28 @@
         v-for="(image, key) in data.audits['screenshot-thumbnails'].details.items"
         :key="key"
       >
-        <img :src="image.data" />
+        <img :src="image.data">
       </div>
     </div>
 
-    <v-simple-table>
-      <tbody>
-      <tr
-        v-for="audit in data.audits"
-        :key="audit.title"
-      >
-        <td v-html="audit.title"></td>
-        <td>{{ audit.displayValue }}</td>
-      </tr>
-      </tbody>
-    </v-simple-table>
+    <v-card-title>Stack</v-card-title>
+    <v-card-text>
+      <v-list>
+        <v-list-item
+          v-for="item in data.stackPacks"
+          :key="item.id"
+        >
+          <v-avatar size="56">
+            <img :src="svgToWhite(item.iconDataURL)">
+          </v-avatar>
+          <p class="ml-3">
+            {{ item.title }}
+          </p>
+        </v-list-item>
+      </v-list>
+    </v-card-text>
+
+    <AuditItems :items="data.audits"/>
   </section>
 </template>
 
@@ -32,6 +39,11 @@ export default {
     data: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    svgToWhite(icon) {
+      return icon.replace('%232f3439', '%23ffffff');
     }
   }
 };
