@@ -18,16 +18,11 @@
 </template>
 
 <script>
-import AuditItemFinalScreenshot from '~/components/GooglePageSpeedInsights/AuditItems/AuditItemFinalScreenshot';
-import AuditItemFullPageScreenshot from '~/components/GooglePageSpeedInsights/AuditItems/AuditItemFullPageScreenshot';
 import customAuditItems from '~/mixins/custom-audit-items';
 
 export default {
   name: 'AuditItemExpansionPanel',
-  components: {
-    AuditItemFinalScreenshot,
-    AuditItemFullPageScreenshot
-  },
+  mixins: [customAuditItems],
   props: {
     item: {
       type: Object,
@@ -41,7 +36,8 @@ export default {
   },
   methods: {
     customAuditItemExists(auditKey) {
-      return customAuditItems[auditKey] || false;
+      console.log(this.customExpansions, (this.customExpansions[auditKey]||false));
+      return this.customExpansions[auditKey] || false;
     }
   }
 };
