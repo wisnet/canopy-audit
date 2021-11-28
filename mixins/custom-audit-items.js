@@ -4,6 +4,8 @@ import AuditItemMainthreadWorkBreakdown
   from '~/components/GooglePageSpeedInsights/AuditItems/AuditItemMainthreadWorkBreakdown';
 import AuditItemLongTasks from '~/components/GooglePageSpeedInsights/AuditItems/AuditItemLongTasks';
 import AuditItemNetworkRequests from '~/components/GooglePageSpeedInsights/AuditItems/AuditItemNetworkRequests';
+import AuditItemRenderBlockingResources
+  from '~/components/GooglePageSpeedInsights/AuditItems/AuditItemRenderBlockingResources';
 
 export default {
   components: {
@@ -11,7 +13,8 @@ export default {
     AuditItemFullPageScreenshot,
     AuditItemMainthreadWorkBreakdown,
     AuditItemLongTasks,
-    AuditItemNetworkRequests
+    AuditItemNetworkRequests,
+    AuditItemRenderBlockingResources
   },
   data() {
     return {
@@ -20,7 +23,8 @@ export default {
         'full-page-screenshot': 'AuditItemFullPageScreenshot',
         'mainthread-work-breakdown': 'AuditItemMainthreadWorkBreakdown',
         'long-tasks': 'AuditItemLongTasks',
-        'network-requests': 'AuditItemNetworkRequests'
+        'network-requests': 'AuditItemNetworkRequests',
+        'render-blocking-resources': 'AuditItemRenderBlockingResources'
       }
     };
   }

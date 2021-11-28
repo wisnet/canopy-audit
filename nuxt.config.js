@@ -54,7 +54,11 @@ export default {
     },
     {
       src: '~/plugins/vuex-persist',
-      ssr: false
+      mode: 'client'
+    },
+    {
+      src: '~/plugins/micromark',
+      mode: 'client'
     }
   ],
 

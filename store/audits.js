@@ -2,7 +2,8 @@ import {v4 as uuidv4} from 'uuid';
 import {DateTime} from 'luxon';
 
 export const state = () => ({
-  audits: []
+  audits: [],
+  currentAudit: {}
 });
 
 export const mutations = {

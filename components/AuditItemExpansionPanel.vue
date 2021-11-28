@@ -11,7 +11,7 @@
         </v-row>
       </v-expansion-panel-header>
       <v-expansion-panel-content>
-        {{ item.description }}
+        <span v-html="$micromark(item.description)"></span>
       </v-expansion-panel-content>
     </template>
   </section>
@@ -36,7 +36,6 @@ export default {
   },
   methods: {
     customAuditItemExists(auditKey) {
-      console.log(this.customExpansions, (this.customExpansions[auditKey]||false));
       return this.customExpansions[auditKey] || false;
     }
   }

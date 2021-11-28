@@ -28,17 +28,35 @@
       </v-list>
     </v-card-text>
 
-    <AuditItems :items="data.audits"/>
+    <AuditItems :items="data.audits" />
   </section>
 </template>
 
 <script>
+import {
+  mapValues as _mapValues,
+  omitBy as _omitBy
+} from 'lodash';
+
 export default {
   name: 'LighthouseResults',
   props: {
     data: {
       type: Object,
       required: true
+    }
+  },
+  computed: {
+    opportunities() {
+      return 'a';
+    },
+    nonOpportunities() {
+      console.log(this.data.audits);
+      return _mapValues(this.data.audits, function (value) {
+        return _omitBy(value.items, function (item) {
+          return item.details.type !== 'opportunity';
+        });
+      });
     }
   },
   methods: {
