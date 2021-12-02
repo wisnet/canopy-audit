@@ -39,6 +39,7 @@ export default {
     return {
       activeTab: '',
       tabs: {
+        'high-priority': 'High Priority',
         'loading-experience': 'Loading Experience',
         lighthouse: 'Lighthouse',
         mxtoolbox: 'MX Toolbox'

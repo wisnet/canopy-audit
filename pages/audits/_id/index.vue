@@ -6,13 +6,8 @@
         <img
           :src="finalScreenshot"
         />
-
-        <AuditReports
-          :audit="audit.audits"
-        />
-
+        <AuditReports :audit="audit.audits" />
         <AuditSummaryTable :audit="audit.audits" />
-        <ImageOptimizationOpportunities :opportunities="imageOpportunities" />
       </template>
     </client-only>
   </section>
@@ -22,13 +17,11 @@
 import {mapState} from 'vuex';
 import AuditReports from '~/components/AuditReports';
 import AuditSummaryTable from '~/components/AuditSummaryTable';
-import ImageOptimizationOpportunities from "@/components/ImageOptimizationOpportunities";
 
 export default {
   components: {
     AuditReports,
     AuditSummaryTable,
-    ImageOptimizationOpportunities
   },
   head() {
     return {
@@ -43,21 +36,19 @@ export default {
       return this.audits.find(e => e.uuid === this.$route.params.id) || false;
     },
     finalScreenshot() {
-      if (this.audit) {
-        return this.audit
-          .audits
-          .pageSpeed
-          .lighthouseResult
-          .audits['final-screenshot']
-          .details.data;
-      }
+      return this.audit
+        .audits
+        .pageSpeed
+        .lighthouseResult
+        .audits['final-screenshot']
+        .details.data;
     },
     imageOpportunities() {
-        return this.audit
-          .audits
-          .pageSpeed
-          .lighthouseResult
-          .audits['uses-optimized-images'];
+      return this.audit
+        .audits
+        .pageSpeed
+        .lighthouseResult
+        .audits['uses-optimized-images'];
     }
   },
   created() {

@@ -7,16 +7,16 @@
         v-for="item in images"
         :key="item.url"
         cols="12"
-        md="4"
+        md="3"
       >
-        <v-card
-        >
+        <v-card>
           <v-img
             :src="item.url"
             height="300"
           />
+
           <v-card-title>
-            {{ item.wastedBytes / 1000 }} MB wasted
+            {{ item.wastedBytes / 1000 }} KB wasted
           </v-card-title>
 
           <v-card-subtitle>
